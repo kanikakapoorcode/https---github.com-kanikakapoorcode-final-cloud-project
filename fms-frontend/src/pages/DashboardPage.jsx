@@ -1,34 +1,57 @@
-import { useState, useEffect } from 'react'; // Add this import
-import { Box, CssBaseline, Toolbar } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Box, CssBaseline, Toolbar, Container } from '@mui/material';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/Dashboard/Sidebar';
 import Alert from '../components/Dashboard/Alert';
-import { useAuth } from '../hooks/useAuth'; // Updated import path
+import { useAuth } from '../hooks/useAuth';
 
 const DashboardPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [spendAlert, setSpendAlert] = useState(null); // Now properly imported
+  const [spendAlert, setSpendAlert] = useState(null);
 
-  useEffect(() => { // Now properly imported
+  useEffect(() => {
     if (!user) {
       navigate('/auth/login');
     }
   }, [user, navigate]);
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh' }}>
       <CssBaseline />
       <Sidebar />
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      
+      {/* Main Content Area */}
+      <Box 
+        component="main" 
+        sx={{ 
+          flexGrow: 1,
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <Toolbar />
+        
+        {/* Alert Notification */}
         {spendAlert && (
           <Alert
             message={spendAlert.message}
             onClose={() => setSpendAlert(null)}
           />
         )}
-        <Outlet />
+        
+        {/* Centered Content Container */}
+        <Container 
+          maxWidth="lg" 
+          sx={{
+            flexGrow: 1,
+            py: 4,
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <Outlet /> {/* This will render nested routes */}
+        </Container>
       </Box>
     </Box>
   );
