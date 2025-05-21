@@ -1,13 +1,14 @@
-import { Alert as MuiAlert, Snackbar } from '@mui/material';
+// In Alert.jsx
+import { Alert as MuiAlert } from '@mui/material';
 
-const Alert = ({ message, onClose }) => {
+export default function Alert({ message, onClose }) {
   return (
-    <Snackbar open={!!message} autoHideDuration={6000} onClose={onClose}>
-      <MuiAlert onClose={onClose} severity="warning" elevation={6} variant="filled">
-        {message}
-      </MuiAlert>
-    </Snackbar>
+    <MuiAlert 
+      severity="warning" 
+      onClose={onClose}
+      sx={{ mb: 2 }}
+    >
+      {message}
+    </MuiAlert>
   );
-};
-
-export default Alert;
+}
